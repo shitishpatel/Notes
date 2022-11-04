@@ -1,0 +1,15 @@
+{
+    "apps":[
+        {
+            "name":"firstp1",
+            "script":"./index.js",
+            "watch":true,
+            "ignore_watch":["node_modules","public"],
+            "instances":1,
+            "exce_mode":"cluster",
+            "env":{
+                "DB_NAME":"P@_IMPROVE"
+            }
+        }
+    ]
+}
