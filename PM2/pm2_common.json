@@ -1,0 +1,28 @@
+{
+    "apps":[
+        {
+            "name":"firstp1",
+            "cwd":"C:/Learning/Practice/Practice3",
+            "script":"./index.js",
+            "watch":true,
+            "ignore_watch":["node_modules","public"],
+            "instances":1,
+            "exce_mode":"cluster",
+            "env":{
+                "DB_NAME":"P@_IMPROVE"
+            }
+        },
+        {
+            "name":"secondp2",
+            "cwd":"C:/Learning/Practice/practice2",
+            "script":"./index.js",
+            "watch":true,
+            "ignore_watch":["node_modules","public"],
+            "instances":1,
+            "exce_mode":"cluster",
+            "env":{
+                "DB_NAME":"P2_IMPROVE"
+            }
+        }
+    ]
+}
