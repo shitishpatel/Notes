@@ -1,0 +1,48 @@
+
+
+<div class="container">
+
+
+
+    <div *ngIf="errormsg" class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>{{errormsg}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+
+      <div *ngIf="successmsg" class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{successmsg}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg p-5 mt-5 mb-5">
+                <h1>Welcomer here!</h1>
+                <form [formGroup]="signupForm">
+                    <div class="form-group">
+                        <label>Employee Id</label>
+                        <input type="text" class="form-control"  formControlName="id"  placeholder="Enter Employee Id" required>
+                    </div>
+                    <div class="form-group">
+                        <label>DisplayName</label>
+                        <input type="text" class="form-control"  formControlName="name"  placeholder="Enter name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control"  placeholder="xyz@domain.com" formControlName="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" placeholder="********" formControlName="password"  required>
+                    </div>
+                    <button class="btn btn-outline-primary btn-block" *ngIf="!getparamId" (click)=signup()>Signup</button>
+                    <button class="btn btn-outline-primary btn-block" *ngIf="getparamId" (click)= userUpdate()>
+                        Update</button>
+                    <!-- <div class="col-lg-4 mt-2" *ngIf="getparamId" (click)="userUpdate()">
+                        <button class="btn btn-dark btn-sm" >Update</button>
+                    </div> -->
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
