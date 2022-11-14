@@ -1,0 +1,21 @@
+<%-include('common/header',{dummyData:'Dummy data'})-%>
+    Hello ejs <%=name%>
+        <p>Id is <%=id%>
+        </p>
+
+        <%if(id>1){%>
+            <h1>Home</h1>
+            <%}else{%>
+                <h1>Blog</h1>
+                <%}%>
+
+
+                    <ul>
+                        <%blogs.forEach(function(item){%>
+                            <li>
+                                <%=item%>
+                            </li>
+                            <%});%>
+                    </ul>
+
+                    <%-include('common/footer')-%>
