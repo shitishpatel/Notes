@@ -1,3 +1,1 @@
-Nodemon for Ejs file=>
-
-nodemon app.js -e js,ejs,json
+Nodemon for Ejs file=>   nodemon app.js -e js,ejs,json
