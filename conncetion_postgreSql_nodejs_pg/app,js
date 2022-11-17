@@ -6,8 +6,32 @@ const bodyParser = require("body-parser");
 
 const express = require('express');
 const app = express();
+const swaggerJSDoc=require('swagger-jsdoc');
+const swaggerUi=require('swagger-ui-express');
+
 
 app.use(bodyParser.json());
+
+
+const options={
+    definition:{
+        openapi:'3.0.0',
+        info:{
+            title:"User Apis",
+            version:'1.0.0'
+        },
+        servers:[
+            {
+                url:'http://localhost:4000/'
+            }
+        ]
+    },
+    apis:['./app.js']
+}
+
+const swaggerSpec=swaggerJSDoc(options);
+app.use('/api-docs',swaggerUi.serve,swaggerUi.setup(swaggerSpec));
+
 app.listen(4000, ()=>{
     console.log("Sever is now listening at port 4000");
 })
@@ -15,6 +39,54 @@ app.listen(4000, ()=>{
 
 client.connect();
 
+/**
+ * @swagger
+ * /:
+ *  get:
+ *      summary: check get call 
+ *      description: check get call
+ *      responses:
+ *          200:
+ *              description: To test get method
+ */
+
+app.get('/',(req,res)=>{
+    res.send("Hello...")
+})
+
+
+/**
+ * @swagger
+ *  components:
+ *      schemas:
+ *          User:
+ *              type: object
+ *              properties:
+ *                  id:
+ *                      type: integer
+ *                  name:
+ *                      type: string
+ *                  address:
+ *                      type: string
+ */
+
+
+/**
+ * @swagger
+ * /users:
+ *  get:
+ *      summary: To get all user data
+ *      description: To get all user data
+ *      responses:
+ *          200:
+ *              description: this api is use for fetch data
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#components/schemas/User'
+ */
 app.get('/users', (req, res)=>{
     client.query(`Select * from demo_table`, (err, result)=>{
         if(!err){
@@ -23,6 +95,33 @@ app.get('/users', (req, res)=>{
     });
     client.end;
 })
+
+/**
+ * @swagger
+ * /users/{id}:
+ *  get:
+ *      summary: get user by id
+ *      description: get user by id
+ *      parameters:
+ *          - in: path
+ *            name: id
+ *            required: true
+ *            description: Numeric ID required
+ *            schema:
+ *              type: integer
+ * 
+ *      responses:
+ *          200:
+ *              description: this api is use for fetch data
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#components/schemas/User'
+ */
+
+
 
 app.get('/users/:id', (req, res)=>{
     client.query(`Select * from demo_table where id=${req.params.id}`, (err, result)=>{
@@ -33,7 +132,27 @@ app.get('/users/:id', (req, res)=>{
     client.end;
 })
 
-app.post('/users', (req, res)=> {
+
+
+/**
+ * @swagger
+ * /users/adduser:
+ *  post:
+ *      summary: To add user data
+ *      description: To add user data
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#components/schemas/User'
+ *      responses:
+ *          200:
+ *              description: inserted succesfully
+ */
+
+
+app.post('/users/adduser', (req, res)=> {
     const user = req.body;
     let insertQuery = `insert into demo_table(id,name,address) 
                        values( '${user.id}','${user.name}', '${user.address}')`
@@ -46,6 +165,38 @@ app.post('/users', (req, res)=> {
     })
     client.end;
 })
+
+
+/**
+ * @swagger
+ * /users/{id}:
+ *  put:
+ *      summary: Updated data
+ *      description: Updated data
+ *      parameters:
+ *          - in: path
+ *            name: id
+ *            required: true
+ *            description: Numeric ID required
+ *            schema:
+ *              type: integer
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#components/schemas/User'
+ * 
+ *      responses:
+ *          200:
+ *              description: this api is use for fetch data
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#components/schemas/User'
+ */
 
 
 app.put('/users/:id', (req, res)=> {
@@ -66,6 +217,27 @@ app.put('/users/:id', (req, res)=> {
 })
 
 
+
+/**
+ * @swagger
+ * /users/{id}:
+ *  delete:
+ *      summary: deleted data
+ *      description: deleted data
+ *      parameters:
+ *          - in: path
+ *            name: id
+ *            required: true
+ *            description: Numeric ID required
+ *            schema:
+ *              type: integer
+ *  
+ *      responses:
+ *          200:
+ *              description: this api is use for delete data
+ */
+
+
 app.delete('/users/:id', (req, res)=> {
     let insertQuery = `delete from demo_table where id=${req.params.id}`
 
@@ -77,4 +249,3 @@ app.delete('/users/:id', (req, res)=> {
     })
     client.end;
 })
-Footer
