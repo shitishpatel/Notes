@@ -5,6 +5,7 @@ import { CounterService } from '../services/counter.service';
   selector: 'app-comp-b',
   templateUrl: './comp-b.component.html',
   styleUrls: ['./comp-b.component.css'],
+  providers:[CounterService]
 })
 export class CompBComponent implements OnInit {
 
