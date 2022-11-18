@@ -1,5 +1,6 @@
 const axios = require('axios');
 const client=require('../database/databasepg');
+const logger=require('../winston/logger');
 const knex=require('../database/db');
 var sample = {};
 
@@ -9,6 +10,7 @@ sample.getApplications = function (req) {
         resolve("applications fetched");
     });
 }
+
 
 sample.getToken = function (ctx) {
     return axios.post("http://localhost:4000/api/login",{
@@ -108,8 +110,10 @@ sample.getStudentById=function(ctx){
     return new Promise((resolve, reject) => {
         client.query(`Select * from student where id=${ctx.params.id}`, (err, result)=>{
             if(!err){
+                logger.customerLogger.log('info',"student data by id");
                 resolve(result.rows);
             }else{
+                logger.customerLogger.log('error',"Error .......");
                 reject(err.message);
             }
         });
@@ -126,8 +130,10 @@ sample.addTeacherknex=function(ctx){
             last_name:ctx.params.last_name,
         }).then(()=>{
             knex.select().from('teacher').then((teacher)=>{
+                logger.customerLogger.log('info',"add New employee");
                 resolve("add New employee");
             }).catch((err) => { 
+                logger.customerLogger.log('error',"Error .......");
                 reject(err);
             });
         });
@@ -137,8 +143,11 @@ sample.addTeacherknex=function(ctx){
 sample.teacherDataknex=function(ctx){
     return new Promise((resolve, reject) => {
         knex.select().from('teacher').then((teacher)=>{
+            logger.customerLogger.log('info',"teacher data .......");
             resolve(teacher);
+            
         }).catch((err) => { 
+            logger.customerLogger.log('error',"Error .......");
             reject(err);
         });
     });
