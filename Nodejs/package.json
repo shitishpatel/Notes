@@ -11,7 +11,7 @@
     "nodejs",
     "javascript"
   ],
-  "author": "Rakesh Kohali <codersgyan@gmail.com>",
+  "author": "shitish patel",
   "license": "ISC",
   "dependencies": {
     "cli-color": "^2.0.0"
